@@ -22,6 +22,13 @@
       "when": 1781742898564,
       "tag": "0002_amazing_klaw",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1781753532536,
+      "tag": "0003_clever_whistler",
+      "breakpoints": true
     }
   ]
 }

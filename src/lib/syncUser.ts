@@ -1,6 +1,6 @@
 import { currentUser } from "@clerk/nextjs/server";
 
-import db from "@/db";
+import { db } from "@/db";
 import { usersTable } from "@/db/schemas/users";
 import { eq } from "drizzle-orm";
 

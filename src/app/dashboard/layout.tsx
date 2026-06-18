@@ -1,3 +1,6 @@
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import DashboardSidebar from "@/components/layout/DashboardSidebar";
+
 import syncUser from "@/lib/syncUser";
 
 export default async function DashboardLayout({
@@ -8,10 +11,13 @@ export default async function DashboardLayout({
     await syncUser();
 
     return (
-        <>
-            <aside>Sidebar here</aside>
+        <SidebarProvider>
+            <DashboardSidebar />
 
-            {children}
-        </>
+            <main className="w-full">
+                <SidebarTrigger />
+                {children}
+            </main>
+        </SidebarProvider>
     );
 }

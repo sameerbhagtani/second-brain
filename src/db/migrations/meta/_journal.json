@@ -29,6 +29,13 @@
       "when": 1781753532536,
       "tag": "0003_clever_whistler",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1781808141152,
+      "tag": "0004_whole_bulldozer",
+      "breakpoints": true
     }
   ]
 }

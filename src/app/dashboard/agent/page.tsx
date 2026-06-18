@@ -52,6 +52,10 @@ export default function DashboardAgent() {
                 | { error?: string };
 
             if (!response.ok) {
+                if (response.status === 429) {
+                    throw new Error("You have hit your agent limit.");
+                }
+
                 throw new Error("error" in data ? data.error : "Agent failed");
             }
 

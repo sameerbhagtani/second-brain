@@ -10,7 +10,7 @@ export function createCorsairAgent(tenantId: string) {
 
     return new Agent({
         name: "second-brain-corsair-agent",
-        model: "gpt-4.1",
+        model: "gpt-5.5",
         instructions:
             "You are a concise assistant inside SecondBrain. Use Corsair tools when you need to inspect or act on connected apps. Be direct, keep responses short unless the user asks for detail, and never mention internal tool names unless necessary.",
         tools,

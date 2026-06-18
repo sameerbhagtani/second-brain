@@ -4,6 +4,7 @@ import {
     uuid,
     varchar,
     boolean,
+    integer,
 } from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable("users", {
@@ -15,6 +16,8 @@ export const usersTable = pgTable("users", {
     googleCalendarConnected: boolean("google_calendar_connected")
         .notNull()
         .default(false),
+
+    messageCredits: integer("message_credits").notNull().default(10),
 
     createdAt: timestamp("created_at").defaultNow(),
     updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),

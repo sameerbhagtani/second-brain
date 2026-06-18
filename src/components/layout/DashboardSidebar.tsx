@@ -93,13 +93,13 @@ export default function DashboardSidebar() {
                         SecondBrain
                     </Link>
                 </div>
-                <button
+                {/* <button
                     type="button"
                     className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring"
                 >
                     <FilePenLine className="size-4" />
                     <span>Compose</span>
-                </button>
+                </button> */}
             </SidebarHeader>
 
             <SidebarContent className="pt-3">

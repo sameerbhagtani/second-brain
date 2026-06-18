@@ -15,7 +15,7 @@ export default async function DashboardLayout({
             <DashboardSidebar />
 
             <main className="w-full">
-                <SidebarTrigger />
+                <SidebarTrigger className="m-2" />
                 {children}
             </main>
         </SidebarProvider>

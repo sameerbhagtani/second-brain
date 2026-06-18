@@ -3,30 +3,48 @@
 import { SignOutButton, useUser } from "@clerk/nextjs";
 import {
     Bot,
+    FilePenLine,
+    FileText,
+    Flame,
     CalendarDays,
     ChevronUp,
     Home,
     Inbox,
     LogOut,
+    Send,
     Settings,
+    ShieldAlert,
+    Star,
+    Trash2,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { type ComponentType, useState } from "react";
 
 import {
     Sidebar,
     SidebarContent,
     SidebarFooter,
     SidebarGroup,
+    SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
+    SidebarSeparator,
 } from "@/components/ui/sidebar";
 
-const navigationItems = [
+const primaryNavigationItems = [
     { title: "Agent", href: "/dashboard/agent", icon: Bot },
+] as const;
+
+const mailboxNavigationItems = [
     { title: "Inbox", href: "/dashboard/inbox", icon: Inbox },
+    { title: "Sent", href: "/dashboard/sent", icon: Send },
+    { title: "Spam", href: "/dashboard/spam", icon: ShieldAlert },
+    { title: "Trash", href: "/dashboard/trash", icon: Trash2 },
+] as const;
+
+const secondaryNavigationItems = [
     { title: "Calendar", href: "/dashboard/calendar", icon: CalendarDays },
     { title: "Settings", href: "/dashboard/settings", icon: Settings },
 ] as const;
@@ -40,30 +58,75 @@ export default function DashboardSidebar() {
         user?.fullName || user?.firstName || user?.username || "User";
     const avatarUrl = user?.imageUrl;
 
+    const renderNavItems = (
+        items: ReadonlyArray<{
+            title: string;
+            href: string;
+            icon: ComponentType<{ className?: string }>;
+        }>,
+    ) =>
+        items.map((item) => {
+            const Icon = item.icon;
+            const isActive = pathname === item.href;
+
+            return (
+                <SidebarMenuItem key={item.href}>
+                    <SidebarMenuButton
+                        asChild
+                        isActive={isActive}
+                        className="h-10 rounded-xl px-3 data-[active=true]:bg-primary/15 data-[active=true]:font-medium data-[active=true]:text-primary"
+                    >
+                        <Link href={item.href}>
+                            <Icon />
+                            <span>{item.title}</span>
+                        </Link>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+            );
+        });
+
     return (
         <Sidebar>
-            <SidebarContent className="pt-4">
-                <SidebarGroup>
-                    <SidebarMenu className="gap-1">
-                        {navigationItems.map((item) => {
-                            const Icon = item.icon;
-                            const isActive = pathname === item.href;
+            <SidebarHeader className="gap-3 border-b border-sidebar-border/70 px-4 py-4">
+                <div className="px-2">
+                    <Link
+                        href="/dashboard"
+                        className="block text-lg font-semibold tracking-tight text-sidebar-foreground"
+                    >
+                        SecondBrain
+                    </Link>
+                </div>
+                <button
+                    type="button"
+                    className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                    <FilePenLine className="size-4" />
+                    <span>Compose</span>
+                </button>
+            </SidebarHeader>
 
-                            return (
-                                <SidebarMenuItem key={item.href}>
-                                    <SidebarMenuButton
-                                        asChild
-                                        isActive={isActive}
-                                        className="h-10 rounded-xl px-3"
-                                    >
-                                        <Link href={item.href}>
-                                            <Icon />
-                                            <span>{item.title}</span>
-                                        </Link>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
-                            );
-                        })}
+            <SidebarContent className="pt-3">
+                <SidebarGroup className="gap-3 px-3">
+                    <SidebarMenu className="gap-1">
+                        {renderNavItems(primaryNavigationItems)}
+                    </SidebarMenu>
+
+                    <SidebarSeparator className="mx-0" />
+
+                    <SidebarMenu className="gap-1">
+                        {renderNavItems(mailboxNavigationItems)}
+                    </SidebarMenu>
+
+                    <SidebarSeparator className="mx-0" />
+
+                    <SidebarMenu className="gap-1">
+                        {renderNavItems([secondaryNavigationItems[0]])}
+                    </SidebarMenu>
+
+                    <SidebarSeparator className="mx-0" />
+
+                    <SidebarMenu className="gap-1">
+                        {renderNavItems([secondaryNavigationItems[1]])}
                     </SidebarMenu>
                 </SidebarGroup>
             </SidebarContent>

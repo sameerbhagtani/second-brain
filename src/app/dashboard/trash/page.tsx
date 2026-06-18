@@ -50,7 +50,7 @@ function formatEmailDate(value?: string) {
     }).format(date);
 }
 
-export default function DashboardInbox() {
+export default function DashboardTrash() {
     const [emails, setEmails] = useState<EmailPreviewItem[]>([]);
     const [nextPageToken, setNextPageToken] =
         useState<InboxEmailListProps["nextPageToken"]>(undefined);
@@ -66,7 +66,7 @@ export default function DashboardInbox() {
 
             try {
                 const res = await axios.get<GetEmailsResult>(
-                    `/api/gmail/inbox?mailbox=INBOX`,
+                    `/api/gmail/inbox?mailbox=TRASH`,
                     { withCredentials: true },
                 );
 
@@ -76,7 +76,7 @@ export default function DashboardInbox() {
                 setTotal(data.total);
             } catch (err) {
                 console.error(err);
-                setError("Failed to load inbox emails");
+                setError("Failed to load trash emails");
             } finally {
                 setIsInitialLoading(false);
             }
@@ -93,7 +93,7 @@ export default function DashboardInbox() {
 
             try {
                 const res = await axios.get<GetEmailsResult>(
-                    `/api/gmail/inbox?mailbox=INBOX&pageToken=${encodeURIComponent(
+                    `/api/gmail/inbox?mailbox=TRASH&pageToken=${encodeURIComponent(
                         nextPageToken,
                     )}`,
                     { withCredentials: true },
@@ -118,7 +118,7 @@ export default function DashboardInbox() {
             <div className="mb-6 flex items-end justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-semibold tracking-tight text-foreground">
-                        Inbox
+                        Trash
                     </h1>
                     <p className="mt-1 text-sm text-muted-foreground">
                         {total ?? emails.length} messages
@@ -166,7 +166,7 @@ export default function DashboardInbox() {
                             No messages yet
                         </p>
                         <p className="mt-1 text-sm text-muted-foreground">
-                            Your inbox preview will appear here once Gmail data
+                            Your trash preview will appear here once Gmail data
                             is available.
                         </p>
                     </div>

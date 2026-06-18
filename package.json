@@ -21,6 +21,7 @@
         "@corsair-dev/gmail": "^0.1.4",
         "@corsair-dev/googlecalendar": "^0.1.5",
         "@next/env": "^16.2.9",
+        "axios": "^1.18.0",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "corsair": "^0.1.76",

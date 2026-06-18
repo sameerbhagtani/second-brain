@@ -4,8 +4,6 @@ import { SignOutButton, useUser } from "@clerk/nextjs";
 import {
     Bot,
     FilePenLine,
-    FileText,
-    Flame,
     CalendarDays,
     ChevronUp,
     Home,
@@ -14,7 +12,6 @@ import {
     Send,
     Settings,
     ShieldAlert,
-    Star,
     Trash2,
 } from "lucide-react";
 import Link from "next/link";

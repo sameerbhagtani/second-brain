@@ -135,13 +135,14 @@ export default function DashboardAgent() {
         }
     }
 
+    const lastMessageId = messages.length > 0 ? messages[messages.length - 1].id : null;
+
     // 4. Scroll to bottom on new messages
     useEffect(() => {
-        // Only auto-scroll to bottom if we are not loading older messages
-        if (!isLoadingMore && messages.length > 0) {
+        if (lastMessageId) {
             messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
         }
-    }, [messages.length, isLoadingMore]);
+    }, [lastMessageId]);
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();

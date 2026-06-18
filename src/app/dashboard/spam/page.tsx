@@ -4,6 +4,7 @@ import { useEffect, useState, useTransition } from "react";
 import axios from "axios";
 
 import EmailPreview from "@/components/EmailPreview";
+import EmailDetailModal from "@/components/EmailDetailModal";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import type {
@@ -58,6 +59,9 @@ export default function DashboardSpam() {
     const [isPending, startTransition] = useTransition();
     const [total, setTotal] = useState<number | undefined>(undefined);
     const [isInitialLoading, setIsInitialLoading] = useState(true);
+
+    // Selected email details states
+    const [selectedEmailId, setSelectedEmailId] = useState<string | null>(null);
 
     useEffect(() => {
         startTransition(async () => {
@@ -182,6 +186,7 @@ export default function DashboardSpam() {
                                         email.snippet || "No preview available"
                                     }
                                     date={formatEmailDate(email.internalDate)}
+                                    onClick={() => setSelectedEmailId(email.id)}
                                 />
                             ))}
                         </div>
@@ -207,6 +212,12 @@ export default function DashboardSpam() {
                     </div>
                 )}
             </section>
+
+            {/* Email Detail Popup Modal */}
+            <EmailDetailModal
+                emailId={selectedEmailId}
+                onClose={() => setSelectedEmailId(null)}
+            />
         </div>
     );
 }

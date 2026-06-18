@@ -57,6 +57,8 @@ export async function POST(request: Request) {
             )
             .returning({
                 messageCredits: usersTable.messageCredits,
+                gmailConnected: usersTable.gmailConnected,
+                googleCalendarConnected: usersTable.googleCalendarConnected,
             });
 
         if (!updatedUser) {
@@ -147,7 +149,12 @@ export async function POST(request: Request) {
         });
 
         // 3. Run the AI agent with the conversation context
-        const agent = createCorsairAgent(user.id);
+        const userName = user.fullName || user.firstName || user.username || "User";
+        const agent = createCorsairAgent(user.id, {
+            userName,
+            gmailConnected: updatedUser.gmailConnected,
+            googleCalendarConnected: updatedUser.googleCalendarConnected,
+        });
         const result = await run(agent, agentInput);
         const assistantMessage =
             typeof result.finalOutput === "string"

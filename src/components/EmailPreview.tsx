@@ -3,6 +3,7 @@ type EmailPreviewProps = {
     subject: string;
     snippet: string;
     date?: string;
+    onClick?: () => void;
 };
 
 export default function EmailPreview({
@@ -10,9 +11,15 @@ export default function EmailPreview({
     subject,
     snippet,
     date,
+    onClick,
 }: EmailPreviewProps) {
     return (
-        <article className="flex min-w-0 gap-4 px-5 py-4 transition-colors hover:bg-muted/35 sm:px-6">
+        <article
+            onClick={onClick}
+            className={`flex min-w-0 gap-4 px-5 py-4 transition-colors hover:bg-muted/35 sm:px-6 ${
+                onClick ? "cursor-pointer" : ""
+            }`}
+        >
             <div className="min-w-0 flex-1">
                 <div className="flex min-w-0 items-start justify-between gap-3">
                     <div className="min-w-0">

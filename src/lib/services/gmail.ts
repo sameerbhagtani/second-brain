@@ -191,3 +191,103 @@ export async function getEmails({
         total: response.resultSizeEstimate,
     };
 }
+
+export type EmailDetail = {
+    id: string;
+    threadId: string;
+    sender: string;
+    senderEmail?: string;
+    recipientName?: string;
+    recipientEmail?: string;
+    subject: string;
+    snippet: string;
+    body: string;
+    html?: string;
+    internalDate?: string;
+};
+
+function base64UrlDecode(str: string): string {
+    let base64 = str.replace(/-/g, "+").replace(/_/g, "/");
+    while (base64.length % 4) {
+        base64 += "=";
+    }
+    return Buffer.from(base64, "base64").toString("utf8");
+}
+
+function getEmailBody(part: any): string {
+    if (part.mimeType === "text/plain" && part.body?.data) {
+        return base64UrlDecode(part.body.data);
+    }
+    if (part.parts && part.parts.length > 0) {
+        for (const subPart of part.parts) {
+            const result = getEmailBody(subPart);
+            if (result) return result;
+        }
+    }
+    return "";
+}
+
+function getEmailHtml(part: any): string {
+    if (part.mimeType === "text/html" && part.body?.data) {
+        return base64UrlDecode(part.body.data);
+    }
+    if (part.parts && part.parts.length > 0) {
+        for (const subPart of part.parts) {
+            const result = getEmailHtml(subPart);
+            if (result) return result;
+        }
+    }
+    return "";
+}
+
+export async function getEmailDetail(id: string): Promise<EmailDetail> {
+    const { userId } = await auth();
+
+    if (!userId) {
+        throw new Error("Unauthorized");
+    }
+
+    const email = await corsair
+        .withTenant(userId)
+        .gmail.api.messages.get({
+            id,
+            format: "full",
+        });
+
+    const {
+        sender,
+        senderEmail,
+        recipientName,
+        recipientEmail,
+        subject,
+    } = getMessageMetadata(email);
+
+    if (!email.id || !email.threadId) {
+        throw new Error("Message not found");
+    }
+
+    let body = "";
+    let html = "";
+    if (email.payload) {
+        body = getEmailBody(email.payload);
+        html = getEmailHtml(email.payload);
+    }
+    if (!body) {
+        body = email.snippet ?? "";
+    }
+
+    return {
+        id: email.id,
+        threadId: email.threadId,
+        sender,
+        senderEmail,
+        recipientName,
+        recipientEmail,
+        subject,
+        snippet: email.snippet ?? "",
+        body,
+        html: html || undefined,
+        internalDate: email.internalDate,
+    };
+}
+

@@ -399,7 +399,10 @@ export default function Home() {
                 </section>
 
                 {/* FEATURES SECTION */}
-                <section id="features" className="py-20 md:py-24 bg-white border-b border-neutral-100">
+                <section
+                    id="features"
+                    className="py-20 md:py-24 bg-white border-b border-neutral-100"
+                >
                     <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
                         <div className="text-center max-w-3xl mx-auto mb-16">
                             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-neutral-900">
@@ -528,7 +531,7 @@ export default function Home() {
                                             <div className="w-3 h-3 rounded-full bg-green-400/80"></div>
                                         </div>
                                         <span className="text-xs font-semibold text-neutral-400 font-mono tracking-wide">
-                                            SECONDBRAIN_TERMINAL
+                                            SECONDBRAIN
                                         </span>
                                         <span className="w-10"></span>
                                     </div>
@@ -608,7 +611,10 @@ export default function Home() {
                 </section>
 
                 {/* HOW IT WORKS SECTION */}
-                <section id="how-it-works" className="py-20 md:py-24 bg-white border-b border-neutral-100">
+                <section
+                    id="how-it-works"
+                    className="py-20 md:py-24 bg-white border-b border-neutral-100"
+                >
                     <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
                         <div className="text-center max-w-3xl mx-auto mb-16">
                             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-neutral-900">

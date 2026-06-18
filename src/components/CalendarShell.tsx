@@ -7,6 +7,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import type { DatesSetArg, EventInput } from "@fullcalendar/core";
+import CalendarEventModal from "@/components/CalendarEventModal";
 
 type CalendarShellProps = {
     initialEvents?: EventInput[];
@@ -33,6 +34,17 @@ export default function CalendarShell({
     const [events, setEvents] = useState<EventInput[]>(initialEvents);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [selectedEvent, setSelectedEvent] = useState<any | null>(null);
+
+    const handleEventClick = useCallback((info: any) => {
+        setSelectedEvent({
+            title: info.event.title,
+            start: info.event.startStr || info.event.start?.toISOString(),
+            end: info.event.endStr || info.event.end?.toISOString(),
+            allDay: info.event.allDay,
+            extendedProps: info.event.extendedProps,
+        });
+    }, []);
 
     const calendarTheme = {
         "--fc-button-bg-color": "#f97316",
@@ -95,6 +107,7 @@ export default function CalendarShell({
                 eventDisplay="block"
                 events={events}
                 datesSet={fetchMonth}
+                eventClick={handleEventClick}
             />
 
             {isLoading ? (
@@ -110,6 +123,12 @@ export default function CalendarShell({
                     {error}
                 </div>
             ) : null}
+
+            {/* Event Details Popup Modal */}
+            <CalendarEventModal
+                event={selectedEvent}
+                onClose={() => setSelectedEvent(null)}
+            />
         </div>
     );
 }

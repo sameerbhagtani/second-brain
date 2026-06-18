@@ -10,6 +10,12 @@ function mapCalendarEvent(event: {
     summary?: string;
     start?: { date?: string; dateTime?: string };
     end?: { date?: string; dateTime?: string };
+    description?: string | null;
+    location?: string | null;
+    creator?: { email?: string; displayName?: string } | null;
+    organizer?: { email?: string; displayName?: string } | null;
+    status?: string | null;
+    htmlLink?: string | null;
 }): EventInput {
     const isAllDay = Boolean(event.start?.date && !event.start?.dateTime);
 
@@ -19,6 +25,16 @@ function mapCalendarEvent(event: {
         start: event.start?.dateTime ?? event.start?.date,
         end: event.end?.dateTime ?? event.end?.date,
         allDay: isAllDay,
+        extendedProps: {
+            description: event.description ?? null,
+            location: event.location ?? null,
+            creatorEmail: event.creator?.email ?? null,
+            creatorName: event.creator?.displayName ?? null,
+            organizerEmail: event.organizer?.email ?? null,
+            organizerName: event.organizer?.displayName ?? null,
+            status: event.status ?? null,
+            htmlLink: event.htmlLink ?? null,
+        },
     };
 }
 
